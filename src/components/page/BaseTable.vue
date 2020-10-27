@@ -129,11 +129,17 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            fetchData(this.query).then(res => {
+            /*fetchData(this.query).then(res => {
                 console.log(res);
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
-            });
+            });*/
+            this.$api.get("/reader/getList",{
+              current:1,
+              size:5
+            },res =>{
+              console.log(res.data.data.readerInfoList)
+            })
         },
         // 触发搜索按钮
         handleSearch() {

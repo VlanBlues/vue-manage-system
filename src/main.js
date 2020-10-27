@@ -10,7 +10,8 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
 import store from './store'
-
+import Api from './api/index.js';
+Vue.prototype.$api = Api;
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {
