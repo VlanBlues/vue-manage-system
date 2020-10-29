@@ -29,6 +29,7 @@
                     class="table-td-thumb"
                     :src="scope.row.img"
                     :preview-src-list="[scope.row.img]"
+                    :fit="contain"
             ></el-image>
           </template>
         </el-table-column>
@@ -315,6 +316,5 @@
     display: block;
     margin: auto;
     width: 40px;
-    height: 40px;
   }
 </style>
