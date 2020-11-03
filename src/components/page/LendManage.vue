@@ -10,7 +10,7 @@
         >批量删除
         </el-button>
         <el-button class="mr10" type="success" icon="el-icon-plus" @click="addReader">添加</el-button>
-        <el-input v-model="query.name" placeholder="姓名" class="handle-input mr10" clearable></el-input>
+        <el-input v-model="query.bookName" placeholder="书名" class="handle-input mr10" clearable></el-input>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
       </div>
       <el-table
@@ -21,25 +21,28 @@
               header-cell-class-name="table-header"
               @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="readerId" label="ID" width="60" align="center"></el-table-column>
-        <el-table-column label="头像(查看大图)" align="center">
-          <template slot-scope="scope">
-            <el-image
-                    class="table-td-thumb"
-                    :src="scope.row.img"
-                    :preview-src-list="[scope.row.img]"
-                    :fit="contain"
-            ></el-image>
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="图片" style="width: 30%">
+                <span><img :src="props.row.bookImg" style="width: 200px"/> </span>
+              </el-form-item>
+              <el-form-item label="简介" style="width: 70%">
+                <span>{{ props.row.introduction }}</span>
+              </el-form-item>
+            </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名"></el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="password" label="密码"></el-table-column>
-        <el-table-column prop="sex" width="55" label="性别"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
-        <el-table-column prop="birth" label="生日"></el-table-column>
-        <el-table-column prop="registerDate" label="注册时间"></el-table-column>
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="bookId" label="ID" width="60" align="center"></el-table-column>
+        <el-table-column prop="bookName" label="书名"></el-table-column>
+        <el-table-column prop="author" label="作者"></el-table-column>
+        <el-table-column prop="publish" label="出版社"></el-table-column>
+        <el-table-column prop="isbn"  label="ISBN"></el-table-column>
+        <el-table-column prop="language" width="55" label="语言"></el-table-column>
+        <el-table-column prop="price" width="55" label="价格"></el-table-column>
+        <el-table-column prop="classId" width="55" label="类别"></el-table-column>
+        <el-table-column prop="number" width="55" label="剩余数量"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
@@ -71,40 +74,6 @@
     </div>
 
     <!--添加弹出框-->
-    <el-dialog @open="onOpen" @close="onClose" :title="dialogFormTitle" :visible.sync="dialogFormVisible" center width="30%" v-dialogDrag>
-      <el-form ref="elForm" size="medium" label-width="70px">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="registerData.username" placeholder="请输入用户名" clearable
-                    prefix-icon='el-icon-notebook-2' ></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="registerData.name" placeholder="姓名" clearable prefix-icon='el-icon-user'
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="registerData.password" placeholder="请输入密码" clearable prefix-icon='el-icon-lock'
-                    show-password ></el-input>
-        </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-radio-group v-model="registerData.sex" size="medium">
-            <el-radio v-for="(item, index) in sexOptions" :key="index" :label="item.value"
-                      :disabled="item.disabled">{{item.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="电话" prop="phone">
-          <el-input v-model="registerData.phone" placeholder="请输入电话" clearable prefix-icon='el-icon-phone'
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="生日" prop="birth">
-          <el-date-picker style="width: 100%;" v-model="registerData.birth" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                          placeholder="请选择生日" clearable></el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="handelConfirm">确定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -115,7 +84,7 @@
     data() {
       return {
         query: {
-          name: '',
+          bookName: '',
           pageIndex: 1,
           pageSize: 10
         },
@@ -126,12 +95,7 @@
         pageTotal: 0,
         form: {},
         registerData: {
-          username: undefined,
-          name: undefined,
-          password: undefined,
-          sex: undefined,
-          phone: undefined,
-          birth: undefined
+          
         },
         sexOptions: [{
           "label": "男",
@@ -147,10 +111,10 @@
     },
     methods: {
       getData() {
-        this.$api.get("/reader/getList", this.query, res => {
-          // console.log(res.data);
+        this.$api.get("/book/info/getList", this.query, res => {
+          console.log('777',res.data);
           if(res.data.code === 200){
-            this.tableData = res.data.data.readerInfoList;
+            this.tableData = res.data.data.records;
             this.pageTotal = res.data.data.total;
           }
         })
@@ -311,9 +275,18 @@
     margin-right: 10px;
   }
 
-  .table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  .el-image__inner{
+    width: 200px;
   }
 </style>
