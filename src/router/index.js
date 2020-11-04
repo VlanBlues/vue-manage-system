@@ -38,9 +38,9 @@ export default new Router({
           meta: {title: '用户管理'}
         },
         {
-          path: '/lendManage',
-          component: () => import('../components/page/LendManage.vue'),
-          meta: { title: '借阅管理' }
+          path: '/bookManage',
+          component: () => import('../components/page/BookManage.vue'),
+          meta: { title: '图书管理' }
         },
         {
           path: '/tabs',

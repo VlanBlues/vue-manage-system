@@ -71,8 +71,8 @@
           },
           {
             icon: 'el-icon-lx-cascades',
-            index: 'lendManage',
-            title: '借阅管理'
+            index: 'bookManage',
+            title: '图书管理'
           },
           {
             icon: 'el-icon-lx-copy',
