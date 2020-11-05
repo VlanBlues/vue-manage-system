@@ -23,13 +23,13 @@
       >
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="readerId" label="ID" width="60" align="center"></el-table-column>
-        <el-table-column label="头像(查看大图)" align="center">
+        <el-table-column label="头像" align="center">
           <template slot-scope="scope">
             <el-image
                     class="table-td-thumb"
                     :src="scope.row.img"
-                    :preview-src-list="[scope.row.img]"
-                    :fit="contain"
+                    :fit="cover"
+                    @click=""
             ></el-image>
           </template>
         </el-table-column>
@@ -283,7 +283,7 @@
   };
 </script>
 
-<style scoped>
+<style  lang="scss">
   .handle-box {
     margin-bottom: 20px;
   }
@@ -315,6 +315,10 @@
   .table-td-thumb {
     display: block;
     margin: auto;
-    width: 40px;
+    width: 50px;
+    img{
+      width: 50px;
+    }
   }
+  
 </style>

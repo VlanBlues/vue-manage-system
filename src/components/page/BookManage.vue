@@ -9,7 +9,7 @@
                 @click="delAllSelection"
         >批量删除
         </el-button>
-        <el-button class="mr10" type="success" icon="el-icon-plus" @click="addReader">添加</el-button>
+        <el-button class="mr10" type="success" icon="el-icon-plus" @click="addBookInfo">添加</el-button>
         <el-input v-model="query.bookName" placeholder="书名" class="handle-input mr10" clearable></el-input>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
       </div>
@@ -74,7 +74,20 @@
     </div>
     <!--添加弹出框-->
     <el-dialog center :visible.sync="dialogFormVisible" @open="onOpen" @close="onClose" width="40%" :title="dialogFormTitle">
-      sdfsdfdsfdsfdsf
+      <div class="update-img">
+        <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="http://127.0.0.1:8081/book/info/update/bookImg"
+                :file-list="fileList"
+                :auto-upload="false"
+                :data="myData"
+                :on-change="addFile"
+                :on-success="uploadSuccess"
+                list-type="picture">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        </el-upload>
+      </div>
       <el-form ref="elForm" :model="formData"  size="medium" label-width="103px">
         <el-form-item label="书名" prop="bookName">
           <el-input v-model="formData.bookName" placeholder="请输入书名" clearable :style="{width: '90%'}"></el-input>
@@ -157,7 +170,15 @@
           "label": "选项二",
           "value": 2
         }],
+        fileList: [],
       };
+    },
+    computed:{
+      myData(){
+        return {
+          "bookId":this.formData.bookId
+        }
+      }
     },
     created() {
       this.getData();
@@ -179,6 +200,15 @@
             this.classOptions = res.data.data
           }
         })
+      },
+     addFile(file,fileList){
+       if (fileList.length > 1) {
+         console.log("99999999999999999999")
+         fileList.splice(0, 1);
+       }
+      },
+      uploadSuccess(response, file, fileList){
+        console.log('return',response);
       },
       // 触发搜索按钮
       handleSearch() {
@@ -216,10 +246,11 @@
           });
         });
       },
-      addReader(){
+      addBookInfo(){
         Object.assign(this.formData, this.$options.data().formData);
         this.dialogFormTitle = '添加';
         this.dialogFormVisible = true;
+        this.fileList = []
       },
       // 多选操作
       handleSelectionChange(val) {
@@ -267,6 +298,12 @@
       handleEdit(index, row) {
         this.dialogFormVisible = true;
         this.formData = row;
+        this.fileList = [];
+        console.log("row",row)
+        let bookImg = {
+          url:row.bookImg
+        }
+        this.fileList.push(bookImg);
         this.dialogFormTitle = '编辑';
       },
       // 分页导航
@@ -289,6 +326,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          this.$refs.upload.submit();
           this.$api.post('/book/info/saveOrUpdate',this.formData,
             res =>{
               if(res.data.code === 200){
@@ -304,7 +342,7 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss">
   .handle-box {
     margin-bottom: 20px;
   }
@@ -346,5 +384,19 @@
   }
   .el-image__inner{
     width: 200px;
+  }
+  .update-img{
+    width: 60%;
+    margin: 0 auto 10px;
+    button {
+      vertical-align: top;
+    }
+    .el-upload-list__item{
+      height: auto;
+      .el-upload-list__item-thumbnail{
+        width: 60%;
+        height: auto;
+      }
+    }
   }
 </style>
