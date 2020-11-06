@@ -45,7 +45,7 @@ export default new Router({
         {
           path: '/tabs',
           component: () => import('../components/page/Tabs.vue'),
-          meta: {title: 'tab选项卡'}
+          meta: {title: '公告管理'}
         },
         {
           path: '/form',

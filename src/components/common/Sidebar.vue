@@ -77,7 +77,7 @@
           {
             icon: 'el-icon-lx-copy',
             index: 'tabs',
-            title: 'tab选项卡'
+            title: '公告管理'
           },
           {
             icon: 'el-icon-lx-calendar',

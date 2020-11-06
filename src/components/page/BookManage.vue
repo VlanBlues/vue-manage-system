@@ -38,7 +38,7 @@
         <el-table-column prop="bookName" label="书名"></el-table-column>
         <el-table-column prop="author" label="作者"></el-table-column>
         <el-table-column prop="publish" label="出版社"></el-table-column>
-        <el-table-column prop="isbn"  label="ISBN"></el-table-column>
+        <el-table-column prop="isbn" label="ISBN"></el-table-column>
         <el-table-column prop="language" width="55" label="语言"></el-table-column>
         <el-table-column prop="price" width="65" label="价格"></el-table-column>
         <el-table-column prop="classId" width="55" label="类别"></el-table-column>
@@ -73,7 +73,8 @@
       </div>
     </div>
     <!--添加弹出框-->
-    <el-dialog center :visible.sync="dialogFormVisible" @open="onOpen" @close="onClose" width="40%" :title="dialogFormTitle">
+    <el-dialog center :visible.sync="dialogFormVisible" @open="onOpen" @close="onClose" width="40%"
+               :title="dialogFormTitle">
       <div class="update-img">
         <el-upload
                 class="upload-demo"
@@ -85,10 +86,10 @@
                 :on-change="addFile"
                 :on-success="uploadSuccess"
                 list-type="picture">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button slot="trigger" size="small" type="primary">选择图片</el-button>
         </el-upload>
       </div>
-      <el-form ref="elForm" :model="formData"  size="medium" label-width="103px">
+      <el-form ref="elForm"  size="medium" label-width="103px" :model="formData" :rules="rules">
         <el-form-item label="书名" prop="bookName">
           <el-input v-model="formData.bookName" placeholder="请输入书名" clearable :style="{width: '90%'}"></el-input>
         </el-form-item>
@@ -101,7 +102,7 @@
         <el-form-item label="语言" prop="language">
           <el-input v-model="formData.language" placeholder="请输入语言" clearable :style="{width: '90%'}"></el-input>
         </el-form-item>
-        <el-form-item label="类别" prop="class">
+        <el-form-item label="类别" prop="classId">
           <el-select v-model="formData.classId" placeholder="请选择类别" clearable :style="{width: '90%'}">
             <el-option v-for="(item, index) in classOptions" :key="index" :label="item.label" :value="item.value"
                        :disabled="item.disabled"></el-option>
@@ -146,8 +147,8 @@
           pageIndex: 1,
           pageSize: 10
         },
-        dialogFormVisible:false,
-        dialogFormTitle:'添加',
+        dialogFormVisible: false,
+        dialogFormTitle: '添加',
         tableData: [],
         multipleSelection: [],
         pageTotal: 0,
@@ -162,6 +163,59 @@
           publish: undefined,
           pubDate: undefined,
           introduction: undefined,
+          bookImg: undefined
+        },
+        rules: {
+          bookName: [{
+            required: true,
+            message: '请输入书名',
+            trigger: 'blur'
+          }],
+          author: [{
+            required: true,
+            message: '请输入作者',
+            trigger: 'blur'
+          }],
+          isbn: [{
+            required: true,
+            message: '请输入ISBN',
+            trigger: 'blur'
+          }],
+          language: [{
+            required: true,
+            message: '请输入语言',
+            trigger: 'blur'
+          }],
+          classId: [{
+            required: true,
+            message: '请选择类别',
+            trigger: 'change'
+          }],
+          price: [{
+            required: true,
+            message: '请输入价格',
+            trigger: 'blur'
+          },{ type: 'number', message: '价格必须为数字值'}],
+          number: [{
+            required: true,
+            message: '数量',
+            trigger: 'blur'
+          },{ type: 'number', message: '数量必须为数字值'}],
+          publish: [{
+            required: true,
+            message: '请输入出版社',
+            trigger: 'blur'
+          }],
+          pubDate: [{
+            required: true,
+            message: '请输入出版时间',
+            trigger: 'change'
+          }],
+          introduction: [{
+            required: true,
+            message: '请输入简介',
+            trigger: 'blur'
+          }],
         },
         classOptions: [{
           "label": "选项一",
@@ -171,12 +225,13 @@
           "value": 2
         }],
         fileList: [],
-      };
+        
+      }
     },
-    computed:{
-      myData(){
+    computed: {
+      myData() {
         return {
-          "bookId":this.formData.bookId
+          "bookId": this.formData.bookId
         }
       }
     },
@@ -187,28 +242,32 @@
     methods: {
       getData() {
         this.$api.get("/book/info/getList", this.query, res => {
-          console.log('777',res.data);
-          if(res.data.code === 200){
+          console.log('777', res.data);
+          if (res.data.code === 200) {
             this.tableData = res.data.data.records;
             this.pageTotal = res.data.data.total;
           }
         })
       },
-      getClass(){
-        this.$api.get("/class/info/all",{},res =>{
-          if(res.data.code === 200){
+      getClass() {
+        this.$api.get("/class/info/all", {}, res => {
+          if (res.data.code === 200) {
             this.classOptions = res.data.data
           }
         })
       },
-     addFile(file,fileList){
-       if (fileList.length > 1) {
-         console.log("99999999999999999999")
-         fileList.splice(0, 1);
-       }
+      addFile(file, fileList) {
+        if (fileList.length > 1) {
+          fileList.splice(0, 1);
+        }
       },
-      uploadSuccess(response, file, fileList){
-        console.log('return',response);
+      uploadSuccess(response, file, fileList) {
+        console.log('return', response);
+        if (response.code === 200) {
+          this.formData.bookImg = response.data;
+        }else {
+          this.$message.error(`图片上传失败!`);
+        }
       },
       // 触发搜索按钮
       handleSearch() {
@@ -223,16 +282,16 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$api.get('/book/info/del',{
-            bookId:row.bookId
-          },res => {
-            if(res.data.code === 200){
+          this.$api.get('/book/info/del', {
+            bookId: row.bookId
+          }, res => {
+            if (res.data.code === 200) {
               this.$message({
                 type: 'success',
                 message: `删除书名为${row.bookName}成功!`
               });
               this.getData();
-            }else {
+            } else {
               this.$message({
                 type: 'error',
                 message: '删除失败!'
@@ -246,7 +305,7 @@
           });
         });
       },
-      addBookInfo(){
+      addBookInfo() {
         Object.assign(this.formData, this.$options.data().formData);
         this.dialogFormTitle = '添加';
         this.dialogFormVisible = true;
@@ -254,7 +313,7 @@
       },
       // 多选操作
       handleSelectionChange(val) {
-        console.log('val:'+val)
+        console.log('val:' + val)
         this.multipleSelection = val;
       },
       delAllSelection() {
@@ -264,22 +323,22 @@
           bookIdList.push(this.multipleSelection[i].bookId);
           bookNameList.push(this.multipleSelection[i].bookName);
         }
-        console.log('bookId::',bookIdList.toString());
+        console.log('bookId::', bookIdList.toString());
         this.$confirm(`确定批量删除  ${bookNameList.toString()}?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$api.get('/book/info/delList',{
-            'bookIdList':bookIdList.toString()
-          },res => {
-            if(res.data.code === 200){
+          this.$api.get('/book/info/delList', {
+            'bookIdList': bookIdList.toString()
+          }, res => {
+            if (res.data.code === 200) {
               this.$message({
                 type: 'success',
                 message: `删除成功!`
               });
               this.getData();
-            }else {
+            } else {
               this.$message({
                 type: 'error',
                 message: '删除失败!'
@@ -299,9 +358,9 @@
         this.dialogFormVisible = true;
         this.formData = row;
         this.fileList = [];
-        console.log("row",row)
+        console.log("row", row)
         let bookImg = {
-          url:row.bookImg
+          url: row.bookImg
         }
         this.fileList.push(bookImg);
         this.dialogFormTitle = '编辑';
@@ -311,13 +370,15 @@
         this.$set(this.query, 'pageIndex', val);
         this.getData();
       },
-      onOpen() {},
+      onOpen() {
+      },
       onClose() {
         this.$refs['elForm'].resetFields();
         console.log(66666)
       },
       close() {
         this.dialogFormVisible = false;
+        this.formData = []
       },
       handelConfirm() {
         console.log(this.formData);
@@ -327,14 +388,17 @@
           type: 'warning'
         }).then(() => {
           this.$refs.upload.submit();
-          this.$api.post('/book/info/saveOrUpdate',this.formData,
-            res =>{
-              if(res.data.code === 200){
-                this.$message.success(`${this.dialogFormTitle}成功!`);
-                this.getData();
-              }
-            });
-          this.close();
+          setTimeout(()=>{
+            console.log(this.formData);
+            this.$api.post('/book/info/saveOrUpdate', this.formData,
+              res => {
+                if (res.data.code === 200) {
+                  this.$message.success(`${this.dialogFormTitle}成功!`);
+                  this.getData();
+                }
+              });
+            this.close();
+          },500)
         }).catch(() => {
         });
       }
@@ -350,9 +414,11 @@
   .handle-select {
     width: 120px;
   }
+
   .el-table th.gutter {
     display: table-cell !important
   }
+
   .handle-input {
     width: 300px;
     display: inline-block;
@@ -374,26 +440,30 @@
   .demo-table-expand {
     font-size: 0;
   }
+
   .demo-table-expand label {
     width: 90px;
     color: #99a9bf;
   }
+
   .demo-table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
   }
-  .el-image__inner{
+
+  .el-image__inner {
     width: 200px;
   }
-  .update-img{
+
+  .update-img {
     width: 60%;
     margin: 0 auto 10px;
     button {
       vertical-align: top;
     }
-    .el-upload-list__item{
+    .el-upload-list__item {
       height: auto;
-      .el-upload-list__item-thumbnail{
+      .el-upload-list__item-thumbnail {
         width: 60%;
         height: auto;
       }

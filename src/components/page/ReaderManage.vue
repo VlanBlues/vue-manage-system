@@ -28,7 +28,6 @@
             <el-image
                     class="table-td-thumb"
                     :src="scope.row.img"
-                    :fit="cover"
                     @click=""
             ></el-image>
           </template>
@@ -127,7 +126,7 @@
         pageTotal: 0,
         form: {},
         registerData: {
-          username: 'lan',
+          username: '',
           name: undefined,
           password: undefined,
           sex: undefined,
@@ -271,8 +270,10 @@
           this.$api.post('/reader/updateOrSave',this.registerData,
             res =>{
               if(res.data.code === 200){
-                this.$message.success(`${this.dialogFormTitle}成功!`);
+                this.$message.success(`${this.dialogFormTitle}!成功`);
                 this.getData();
+              }else {
+                this.$message.error(`${this.dialogFormTitle}失败!${res.data.data}`);
               }
             });
           this.close();
