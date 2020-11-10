@@ -131,7 +131,8 @@
           password: undefined,
           sex: undefined,
           phone: undefined,
-          birth: undefined
+          birth: undefined,
+          readerId:undefined,
         },
         sexOptions: [{
           "label": "男",
@@ -270,13 +271,13 @@
           this.$api.post('/reader/updateOrSave',this.registerData,
             res =>{
               if(res.data.code === 200){
-                this.$message.success(`${this.dialogFormTitle}!成功`);
-                this.getData();
+                this.$message.success(`${this.dialogFormTitle}成功!`);
+                this.close();
               }else {
-                this.$message.error(`${this.dialogFormTitle}失败!${res.data.data}`);
+                this.$message.error(`${this.dialogFormTitle}失败${res.data.data}`);
               }
+              this.getData();
             });
-          this.close();
         }).catch(() => {
         });
       }
