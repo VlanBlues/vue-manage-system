@@ -1,11 +1,13 @@
 <template>
     <div>
         <vHead></vHead>
-        <transition name="move" mode="out-in">
-            <keep-alive>
-                <router-view></router-view>
-            </keep-alive>
-        </transition>
+        <div style="padding: 0 20%">
+            <transition name="move" mode="out-in">
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
+            </transition>
+        </div>
     </div>
 </template>
 

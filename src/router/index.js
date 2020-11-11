@@ -16,6 +16,18 @@ export default new Router({
     {
       path: '/main',
       component: () => import( '../views/front/main/Index'),
+      children: [
+        {
+          path: '/',
+          component: () => import('../views/front/main/bookSearch/BookSearch.vue'),
+          meta: {title: '书籍搜索'}
+        },
+        {
+          path: 'mySubscribe',
+          component: () => import('../views/front/main/mySubscribe/MySubscribe.vue'),
+          meta: {title: '书籍搜索'}
+        }
+      ]
     },
     {
       path: '/',
