@@ -7,7 +7,8 @@
       <el-col :span="19">
         <div class="book-text">
           <div>{{bookInfo.bookName}}</div>
-          <div>{{bookInfo.author}}&nbsp/&nbsp{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}&nbsp/&nbsp{{bookInfo.price}}元</div>
+          <div>{{bookInfo.author}}</div>
+          <div>{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}&nbsp/&nbsp{{bookInfo.price}}元</div>
           <div>{{bookInfo.introduction | ellipsis}}</div>
         </div>
       </el-col>
@@ -43,8 +44,11 @@
 
 <style lang="scss" scoped>
 .info{
+  padding: 15px 0;
+  border-bottom:1px dashed #929292;
   .book-img{
     width: 100%;
+    cursor: pointer;
   }
   .book-text{
     font-size: 14px;
@@ -56,6 +60,9 @@
       font-size: 16px;
       color: #3377aa;
       cursor: pointer;
+    }
+    .introduction{
+      width: 80%;
     }
   }
 }

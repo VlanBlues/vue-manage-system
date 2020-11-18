@@ -1,16 +1,45 @@
 <template>
   <div>
     <div class="book-search">
-      <el-input placeholder="请输入内容" v-model="query.bookName" class="input-with-select" prefix-icon="el-icon-notebook-2" size="medium">
+      <el-input placeholder="请输入内容" v-model="query.bookName" class="input-with-select" prefix-icon="el-icon-notebook-2"
+                size="medium">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </div>
     <div class="book-info-content">
       <div class="book-list">
-        <book-info :bookInfo="bookList[0]"></book-info>
+        <book-info v-for="item in bookList" :key="item.isbn" :bookInfo="item"></book-info>
       </div>
       <div class="recommend">
-        <div>热门推荐</div>
+        <p>热门推荐</p>
+        <div class="img-list">
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>大雪中的山庄</p>
+            </el-col>
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>名字</p>
+            </el-col>
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>名字</p>
+            </el-col>
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>大雪中的山庄</p>
+            </el-col>
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>名字</p>
+            </el-col>
+            <el-col :span="8">
+              <img src="http://localhost:8081/img/book.jpg">
+              <p>名字</p>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
     <div class="pagination" v-if="pageTotal !== 0">
@@ -28,31 +57,31 @@
 
 <script>
   import BookInfo from "../components/BookInfo";
+
   export default {
     name: "BookSearch",
-    components:{
+    components: {
       BookInfo
     },
-    data(){
-      return{
+    data() {
+      return {
         query: {
           bookName: '',
           pageIndex: 1,
           pageSize: 10
         },
-        pageTotal:0,
-        bookList:[]
+        pageTotal: 0,
+        bookList: []
       }
     },
-    methods:{
+    methods: {
       // 分页导航
       handlePageChange(val) {
         this.$set(this.query, 'pageIndex', val);
         this.getBookInfo();
       },
-      getBookInfo(){
+      getBookInfo() {
         this.$api.get("/book/info/getList", this.query, res => {
-          console.log('777', res.data);
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
             this.bookList = res.data.data.records;
@@ -67,20 +96,33 @@
 </script>
 
 <style lang="scss" scoped>
-.book-search{
-  width: 50%;
-  margin: 20px auto;
-}
-  .book-info-content{
+  .book-search {
+    width: 50%;
+    margin: 20px auto;
+  }
+  .book-info-content {
     width: 100%;
-    .book-list{
+    .book-list {
       display: inline-block;
       width: 70%;
     }
-    .recommend{
+    .recommend {
       display: inline-block;
-      background: #00d1b2;
-      width: 30%;
+      margin-left: 2%;
+      width: 28%;
+      vertical-align: top;
+      .img-list{
+        margin-top: 10px;
+        img{
+          width: 100%;
+        }
+        p{
+          font-size: 10px;
+          color: #3377aa;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 </style>
