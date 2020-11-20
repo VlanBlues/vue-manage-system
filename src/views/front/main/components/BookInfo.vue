@@ -2,7 +2,9 @@
   <div class="info">
     <el-row :gutter="20">
       <el-col :span="5">
-        <img :src="bookInfo.bookImg" class="book-img">
+        <el-card shadow="hover" class="card-img">
+          <img :src="bookInfo.bookImg" class="book-img">
+        </el-card>
       </el-col>
       <el-col :span="19">
         <div class="book-text">
@@ -42,10 +44,15 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .info{
   padding: 15px 0;
   border-bottom:1px dashed #929292;
+  .card-img{
+    .el-card__body{
+      padding: unset;
+    }
+  }
   .book-img{
     width: 100%;
     cursor: pointer;

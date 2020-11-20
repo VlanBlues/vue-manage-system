@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard'
+      redirect: '/main'
     },
     {
       path: '/front',
@@ -25,7 +25,7 @@ export default new Router({
         {
           path: 'mySubscribe',
           component: () => import('../views/front/main/mySubscribe/MySubscribe.vue'),
-          meta: {title: '书籍搜索'}
+          meta: {title: '我的收藏'}
         }
       ]
     },

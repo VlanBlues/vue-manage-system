@@ -1,9 +1,14 @@
 <template>
   <div class="front-main">
     <vHead></vHead>
-    <div style="padding: 0 20%;">
+    <div style="padding: 0 20%;margin-top: 65px;position: relative">
+      <!--<transition name="move" mode="out-in">
+        &lt;!&ndash;<component :is="componentName"></component>&ndash;&gt;
+      </transition>-->
       <transition name="move" mode="out-in">
-        <component :is="componentName"></component>
+        <keep-alive include="BookSearch">
+          <router-view></router-view>
+        </keep-alive>
       </transition>
     </div>
   </div>
@@ -32,7 +37,8 @@
 
 <style scoped lang="scss">
   .front-main{
-    height: 100vh;
+    position: relative;
+    height: 100%;
     overflow: auto;
   }
 </style>

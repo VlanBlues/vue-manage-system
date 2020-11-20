@@ -8,7 +8,7 @@
       <el-menu-item index="/main">书籍搜索</el-menu-item>
       <el-menu-item index="/main/mySubscribe">我的订阅</el-menu-item>
       <el-menu-item index="3">我的收藏</el-menu-item>
-      <el-menu-item index="4"><a href="http://localhost:8080/#/dashboard" target="_blank">订单管理</a></el-menu-item>
+      <el-menu-item index=""><a href="http://localhost:8080/#/dashboard" target="_blank">后台管理</a></el-menu-item>
       <div class="user">
         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         <el-dropdown class="user-name" @command="handleCommand">
@@ -48,6 +48,11 @@
 </script>
 <style lang="scss">
   .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
     .img{
       outline:none;
     }
@@ -55,6 +60,7 @@
       outline: none;
     }
     .el-menu-demo {
+      position: relative;
       padding: 0 20%;
       .logo {
         display: inline-block;
