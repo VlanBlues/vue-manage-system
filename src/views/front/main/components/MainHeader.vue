@@ -38,7 +38,20 @@
         
       },
       handleCommand(command) {
-        this.$message('click on item ' + command);
+        if(command === 'loginout') {
+          this.$confirm('确定退出登录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push('/');
+            this.$message({
+              type: 'success',
+              message: '成功退出!'
+            });
+          }).catch(() => {
+          });
+        }
       }
     },
     mounted() {
@@ -90,6 +103,7 @@
       float: right;
       outline: none;
       .user-name{
+        cursor: pointer;
         margin-left: 10px;
         margin-top: 20px;
         vertical-align: top;
