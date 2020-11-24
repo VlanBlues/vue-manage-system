@@ -133,6 +133,7 @@
               console.log('res:',res.data);
               if(res.data.code === 200){
                 this.$message.success(`登录成功!`);
+                sessionStorage.setItem('userInfo',JSON.stringify(res.data.data));
                 this.$router.push('/main');
               }else {
                 this.$message.error(`登录失败，${res.data.data}`);

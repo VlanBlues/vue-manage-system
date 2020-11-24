@@ -25,11 +25,7 @@
         <el-table-column prop="readerId" label="ID" width="60" align="center"></el-table-column>
         <el-table-column label="头像" align="center">
           <template slot-scope="scope">
-            <el-image
-                    class="table-td-thumb"
-                    :src="scope.row.img"
-                    @click=""
-            ></el-image>
+            <el-avatar :src="scope.row.img" shape="circle" fit="contain"></el-avatar>
           </template>
         </el-table-column>
         <el-table-column prop="username" label="用户名"></el-table-column>

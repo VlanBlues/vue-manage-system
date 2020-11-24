@@ -1,19 +1,19 @@
 <template>
   <div class="header">
     <el-menu :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <div class="logo">
+      <div class="logo" @click="goHome">
         <img src="@/assets/img/book_logo.png"/>
-        <span>图书订阅</span>
+        <span >图书订阅</span>
       </div>
       <el-menu-item index="/main">书籍搜索</el-menu-item>
       <el-menu-item index="/main/mySubscribe">我的订阅</el-menu-item>
       <el-menu-item index="3">我的收藏</el-menu-item>
       <el-menu-item index=""><a href="http://localhost:8080/#/dashboard" target="_blank">后台管理</a></el-menu-item>
       <div class="user">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <el-avatar :src="userInfo.img" shape="circle" fit="contain"></el-avatar>
         <el-dropdown class="user-name" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        用户名<i class="el-icon-caret-bottom"></i>
+                        {{userInfo.username}}<i class="el-icon-caret-bottom"></i>
                     </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item  command="user-info">个人信息</el-dropdown-item>
@@ -30,12 +30,16 @@
     data() {
       return {
         activeIndex: '/main',
+        userInfo:this.$store.state.userInfo
       };
     },
     computed: {},
     methods: {
       handleSelect(key, keyPath) {
         
+      },
+      goHome(){
+        this.$router.push("/main")
       },
       handleCommand(command) {
         if(command === 'loginout') {
@@ -79,6 +83,7 @@
         display: inline-block;
         float: left;
         margin-right: 20%;
+        cursor: pointer;
         img{
           height: 60px;
           border: none;

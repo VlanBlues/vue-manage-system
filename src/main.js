@@ -7,11 +7,13 @@ import { messages } from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
+import base64 from './assets/js/base64.js';
 import './components/common/directives';
 import 'babel-polyfill';
 import store from './store'
 import Api from './api/index.js';
 Vue.prototype.$api = Api;
+Vue.prototype.$base64 = base64;
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {

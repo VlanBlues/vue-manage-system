@@ -3,16 +3,18 @@
     <el-row :gutter="20">
       <el-col :span="5">
         <el-card shadow="hover" class="card-img">
-          <img :src="bookInfo.bookImg" class="book-img">
+          <img :src="bookInfo.bookImg" class="book-img" @click="bookDetail">
         </el-card>
       </el-col>
       <el-col :span="19">
         <div class="book-text">
-          <div>{{bookInfo.bookName}}</div>
-          <div>{{bookInfo.author}}</div>
-          <div>{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}&nbsp/&nbsp{{bookInfo.price}}元</div>
-          <div>{{bookInfo.introduction | ellipsis}}</div>
+          <p @click="bookDetail">{{bookInfo.bookName}}</p>
+          <p>{{bookInfo.author}}</p>
+          <p>{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}</p>
+          <p>{{bookInfo.introduction | ellipsis}}</p>
+          <p>{{bookInfo.price}}元</p>
         </div>
+        <div class="el-icon-star-off star" @click="collection"></div>
       </el-col>
     </el-row>
   </div>
@@ -26,7 +28,6 @@
     },
     filters:{
       ellipsis(value){
-        console.log('---------------------------------')
         if(!value) return;
         if(value.length > 100){
           return value.slice(0,100)+'...';
@@ -36,10 +37,32 @@
     },
     data(){
       return{
-        
+        isStar:false
       }
     },
-    
+    methods:{
+      bookDetail(){
+        this.$router.push({path:'/main/bookDetail',query:{bookInfo:this.$base64.encode(JSON.stringify(this.bookInfo))}})
+      },
+      collection(){
+        let url = "/book/collection/";
+        if(this.bookInfo.isCollection){
+          url += 'del'
+        }else {
+          url += 'add'
+        }
+        this.$api.post(url,{
+          bookId:this.bookInfo.bookId,
+          readerId:this.$store.state.userInfo.readerId
+        },res => {
+          if(res.status === 200 && res.data.success){
+            this.$message.success(res.data.data);
+          }else {
+            this.$message.error(res.data.data);
+          }
+        });
+      }
+    }
     
   }
 </script>
@@ -60,10 +83,10 @@
   .book-text{
     font-size: 14px;
     color: #666;
-    div{
+    p{
       margin-bottom: 8px;
     }
-    div:first-child{
+    p:first-child{
       font-size: 16px;
       color: #3377aa;
       cursor: pointer;
@@ -71,6 +94,14 @@
     .introduction{
       width: 80%;
     }
+  }
+  .star{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #409eff;
   }
 }
 </style>

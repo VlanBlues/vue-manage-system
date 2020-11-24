@@ -2,7 +2,7 @@
   <div>
     <div class="book-search">
       <el-input placeholder="请输入内容" v-model="query.bookName" class="input-with-select" prefix-icon="el-icon-notebook-2"
-                size="medium" clearable>
+                size="medium" clearable @keyup.enter.native="search">
         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
       </el-input>
     </div>
@@ -94,7 +94,7 @@
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
             this.bookList = res.data.data.records;
-            console.log(9999999999999)
+            console.log('bookInfo',res.data.data);
           }
         })
       },
@@ -105,6 +105,16 @@
     },
     created() {
       this.getBookInfo();
+    },
+    watch:{
+      /*'query.bookName': {
+        handler(newName, oldName) {
+          console.log('newName',newName);
+          console.log('oldName',oldName);
+        },
+        immediate: true,
+        // deep: true
+      }*/
     }
   }
 </script>
