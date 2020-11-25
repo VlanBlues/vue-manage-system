@@ -6,8 +6,8 @@
         <span >图书订阅</span>
       </div>
       <el-menu-item index="/main">书籍搜索</el-menu-item>
-      <el-menu-item index="/main/mySubscribe">我的订阅</el-menu-item>
-      <el-menu-item index="3">我的收藏</el-menu-item>
+      <el-menu-item index="/main/mySubscribe">我的借阅</el-menu-item>
+      <el-menu-item index="/main/bookCollection">我的收藏</el-menu-item>
       <el-menu-item index=""><a href="http://localhost:8080/#/dashboard" target="_blank">后台管理</a></el-menu-item>
       <div class="user">
         <el-avatar :src="userInfo.img" shape="circle" fit="contain"></el-avatar>

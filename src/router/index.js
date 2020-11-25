@@ -25,13 +25,19 @@ export default new Router({
         {
           path: 'mySubscribe',
           component: () => import('../views/front/main/mySubscribe/MySubscribe.vue'),
-          meta: {title: '我的收藏'}
+          meta: {title: '我的订阅'}
         },
         {
           path: 'bookDetail',
           name:'bookDetail',
           component: () => import('../views/front/main/components/BookDetail.vue'),
-          meta: {title: '我的收藏'}
+          meta: {title: '图书详情'}
+        },
+        {
+          path: 'bookCollection',
+          name:'bookCollection',
+          component: () => import('../views/front/main/bookCollection/BookCollection.vue'),
+          meta: {title: '图书收藏'}
         }
       ]
     },

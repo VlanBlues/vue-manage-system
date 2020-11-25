@@ -14,7 +14,8 @@
           <p>{{bookInfo.introduction | ellipsis}}</p>
           <p>{{bookInfo.price}}元</p>
         </div>
-        <div class="el-icon-star-off star" @click="collection"></div>
+        <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 22px;"></div>
+        <div v-else class="el-icon-star-off star" @click="collection"></div>
       </el-col>
     </el-row>
   </div>
@@ -46,24 +47,38 @@
       },
       collection(){
         let url = "/book/collection/";
-        if(this.bookInfo.isCollection){
-          url += 'del'
+        if(this.isStar){
+          url += 'del';
         }else {
-          url += 'add'
+          url += 'add';
         }
         this.$api.post(url,{
           bookId:this.bookInfo.bookId,
           readerId:this.$store.state.userInfo.readerId
         },res => {
           if(res.status === 200 && res.data.success){
-            this.$message.success(res.data.data);
+            this.$message({
+              type:'success',
+              showClose: true,
+              message: res.data.data
+            });
+            this.isStar = !this.isStar
           }else {
-            this.$message.error(res.data.data);
+            this.$message({
+              type:'error',
+              showClose: true,
+              message: res.data.data
+            });
           }
         });
       }
+    },
+    mounted(){
+      this.isStar = this.bookInfo.bookCollection !== null;
+    },
+    activated(){
+      this.isStar = this.bookInfo.bookCollection !== null;
     }
-    
   }
 </script>
 

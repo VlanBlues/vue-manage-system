@@ -41,7 +41,7 @@
         <el-table-column prop="isbn" label="ISBN"></el-table-column>
         <el-table-column prop="language" width="55" label="语言"></el-table-column>
         <el-table-column prop="price" width="65" label="价格"></el-table-column>
-        <el-table-column prop="classId" width="55" label="类别"></el-table-column>
+        <el-table-column prop="classInfo.label" width="55" label="类别"></el-table-column>
         <el-table-column prop="number" width="55" label="剩余数量"></el-table-column>
         <el-table-column label="操作" width="150" align="center">
           <template slot-scope="scope">

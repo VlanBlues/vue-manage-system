@@ -13,7 +13,8 @@
           <p>{{bookInfo.price}}元</p>
         </div>
         <el-button type="success" class="subscribe">订阅</el-button>
-        <div class="el-icon-star-on star"></div>
+        <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 36px;"></div>
+        <div v-else class="el-icon-star-off star" @click="collection"></div>
       </el-col>
     </el-row>
   </div>
@@ -24,11 +25,30 @@
     name: "BookDetail",
     data(){
       return{
-        bookInfo:JSON.parse(this.$base64.decode(this.$route.query.bookInfo))
+        bookInfo:JSON.parse(this.$base64.decode(this.$route.query.bookInfo)),
+        isStar:false
       }
     },
     methods:{
-      
+      collection(){
+        let url = "/book/collection/";
+        if(this.isStar){
+          url += 'del';
+        }else {
+          url += 'add';
+        }
+        this.$api.post(url,{
+          bookId:this.bookInfo.bookId,
+          readerId:this.$store.state.userInfo.readerId
+        },res => {
+          if(res.status === 200 && res.data.success){
+            this.$message.success(res.data.data);
+            this.isStar = !this.isStar
+          }else {
+            this.$message.error(res.data.data);
+          }
+        });
+      }
     }
   }
 </script>
