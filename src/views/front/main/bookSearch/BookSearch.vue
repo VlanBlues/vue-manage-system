@@ -78,7 +78,7 @@
           bookName: '',
           pageIndex: 1,
           pageSize: 10,
-          readerId:this.$store.state.userInfo.readerId
+          readerId:this.$route.query.readerId
         },
         pageTotal: 0,
         bookList: [],
@@ -105,7 +105,7 @@
       },
     },
     created() {
-      this.getBookInfo();
+      // this.getBookInfo();
     },
     activated(){
       this.getBookInfo();

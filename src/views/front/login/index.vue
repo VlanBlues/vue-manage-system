@@ -131,10 +131,13 @@
           if(valid){
             this.$api.post('/reader/login',this.loginParam,res => {
               console.log('res:',res.data);
+              let data = res.data.data;
               if(res.data.code === 200){
                 this.$message.success(`登录成功!`);
-                sessionStorage.setItem('userInfo',JSON.stringify(res.data.data));
-                this.$router.push('/main');
+                console.log(data,'888')
+                sessionStorage.setItem('userInfo',JSON.stringify(data));
+                
+                this.$router.push({path:'/main',query:{readerId:data.readerId}})
               }else {
                 this.$message.error(`登录失败，${res.data.data}`);
               }

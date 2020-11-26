@@ -12,7 +12,8 @@
           <p>{{bookInfo.introduction}}</p>
           <p>{{bookInfo.price}}元</p>
         </div>
-        <el-button type="success" class="subscribe">订阅</el-button>
+        <el-button v-if="isSubscribe" type="success" class="subscribe" disabled>已订阅</el-button>
+        <el-button v-else type="success" class="subscribe" @click="subscribe">订阅</el-button>
         <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 36px;"></div>
         <div v-else class="el-icon-star-off star" @click="collection"></div>
       </el-col>
@@ -26,7 +27,8 @@
     data(){
       return{
         bookInfo:JSON.parse(this.$base64.decode(this.$route.query.bookInfo)),
-        isStar:false
+        isStar:false,
+        isSubscribe:false,
       }
     },
     methods:{
@@ -48,7 +50,55 @@
             this.$message.error(res.data.data);
           }
         });
+      },
+      subscribe(){
+        this.$confirm(`确定订阅《${this.bookInfo.bookName}》?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('/subscribe/saveOrUpdate',{
+            bookId:this.bookInfo.bookId,
+            readerId:this.$store.state.userInfo.readerId
+          },res =>{
+            if(res.data.code === 200){
+              this.$message({
+                type: 'success',
+                message: '订阅成功!'
+              });
+              this.isSubscribe = true;
+            }else {
+              this.$message({
+                type: 'error',
+                message: '订阅失败!'
+              });
+            }
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'error',
+            message: '请求失败!'
+          });
+        });
+      },
+      getIsSubscribe(){
+        this.$api.get('/subscribe/getIsSubscribe',{
+          bookId:this.bookInfo.bookId,
+          readerId:this.$store.state.userInfo.readerId
+        },res => {
+          if(res.data.data === "yes"){
+            this.isSubscribe = true
+          }else {
+            this.isSubscribe = false
+          }
+        })
       }
+    },
+    created(){
+      this.getIsSubscribe();
+    },
+    activated(){
+      this.getIsSubscribe();
     }
   }
 </script>

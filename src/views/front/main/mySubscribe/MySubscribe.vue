@@ -14,6 +14,7 @@
                     :total="pageTotal"
                     @current-change="handlePageChange"
             ></el-pagination>
+            
           </div>
         </div>
       </el-tab-pane>
@@ -42,7 +43,8 @@
         query: {
           pageIndex: 1,
           pageSize: 10,
-          readerId:this.$store.state.userInfo.readerId
+          readerId:this.$store.state.userInfo.readerId,
+          state:0
         },
         pageTotal: 0,
         bookList: [],
@@ -54,7 +56,8 @@
         this.getBookInfo();
       },
       getBookInfo() {
-        this.$api.get("/book/info/getListByReaderId", this.query, res => {
+        console.log(this.query,'999999999')
+        this.$api.get("/subscribe/getListByState", this.query, res => {
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
             this.bookList = res.data.data.records;
