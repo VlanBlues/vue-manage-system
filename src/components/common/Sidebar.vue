@@ -82,11 +82,11 @@
           {
             icon: 'el-icon-lx-calendar',
             index: '3',
-            title: '表单相关',
+            title: '审批',
             subs: [
               {
-                index: 'form',
-                title: '基本表单'
+                index: 'approvalManage',
+                title: '借阅审批'
               },
               {
                 index: 'upload',

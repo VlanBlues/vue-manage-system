@@ -43,7 +43,12 @@
     },
     methods:{
       bookDetail(){
-        this.$router.push({path:'/main/bookDetail',query:{bookInfo:this.$base64.encode(JSON.stringify(this.bookInfo))}})
+        this.$router.push({
+          path:'/main/bookDetail',
+          query:{
+            bookInfo:this.$base64.encode(JSON.stringify(this.bookInfo)),
+            isStar:this.isStar
+          }})
       },
       collection(){
         let url = "/book/collection/";

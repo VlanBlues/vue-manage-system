@@ -25,29 +25,9 @@
         <p>热门推荐</p>
         <div class="img-list">
           <el-row :gutter="10">
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>大雪中的山庄</p>
-            </el-col>
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>名字</p>
-            </el-col>
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>名字</p>
-            </el-col>
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>大雪中的山庄</p>
-            </el-col>
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>名字</p>
-            </el-col>
-            <el-col :span="8">
-              <img src="http://localhost:8081/img/book.jpg">
-              <p>名字</p>
+            <el-col :span="8" v-for="item in bookRecommend" :key="item.isbn">
+              <img :src="item.bookImg">
+              <p>{{item.bookName}}</p>
             </el-col>
           </el-row>
         </div>
@@ -82,6 +62,7 @@
         },
         pageTotal: 0,
         bookList: [],
+        bookRecommend:[]
       }
     },
     methods: {
@@ -99,6 +80,14 @@
           }
         })
       },
+      getBookRecommend() {
+        this.$api.get("/book/info/recommend", {}, res => {
+          if (res.data.code === 200) {
+            this.bookRecommend = res.data.data;
+            console.log('bookRecommend',res.data.data);
+          }
+        })
+      },
       search() {
         this.$set(this.query, 'pageIndex', 1);
         this.getBookInfo();
@@ -106,6 +95,7 @@
     },
     created() {
       // this.getBookInfo();
+      this.getBookRecommend();
     },
     activated(){
       this.getBookInfo();
@@ -149,6 +139,9 @@
       vertical-align: top;
       .img-list {
         margin-top: 10px;
+        /deep/.el-col{
+          height: 154px;
+        }
         img {
           width: 100%;
         }

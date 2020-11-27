@@ -72,9 +72,9 @@ export default new Router({
           meta: {title: '公告管理'}
         },
         {
-          path: '/form',
-          component: () => import('../components/page/BaseForm.vue'),
-          meta: {title: '基本表单'}
+          path: '/approvalManage',
+          component: () => import('../components/page/approvalManage.vue'),
+          meta: {title: '借阅审批'}
         },
         {
           // 图片上传组件
