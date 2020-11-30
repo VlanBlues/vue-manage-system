@@ -27,7 +27,7 @@
     data(){
       return{
         bookInfo:JSON.parse(this.$base64.decode(this.$route.query.bookInfo)),
-        isStar:this.$route.query.isStar,
+        isStar:this.$route.query.isStar === 'true',
         isSubscribe:false,
       }
     },

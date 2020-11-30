@@ -82,11 +82,19 @@
           {
             icon: 'el-icon-lx-calendar',
             index: '3',
-            title: '审批',
+            title: '借阅管理',
             subs: [
               {
                 index: 'approvalManage',
                 title: '借阅审批'
+              },
+              {
+                index: 'bookReturnManage',
+                title: '归还审批'
+              },
+              {
+                index: 'bookLends',
+                title: '完成借阅'
               },
               {
                 index: 'upload',

@@ -73,8 +73,18 @@ export default new Router({
         },
         {
           path: '/approvalManage',
-          component: () => import('../components/page/approvalManage.vue'),
+          component: () => import('../components/page/ApprovalManage.vue'),
           meta: {title: '借阅审批'}
+        },
+        {
+          path: '/bookReturnManage',
+          component: () => import('../components/page/BookReturnManage.vue'),
+          meta: {title: '归还审批'}
+        },
+        {
+          path: '/bookLends',
+          component: () => import('../components/page/AllBookLends.vue'),
+          meta: {title: '完成借阅'}
         },
         {
           // 图片上传组件

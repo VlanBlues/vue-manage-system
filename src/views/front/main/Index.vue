@@ -1,6 +1,6 @@
 <template>
   <div class="front-main">
-    <vHead></vHead>
+    <v-head></v-head>
     <div style="padding: 0 20%;margin-top: 65px;position: relative">
       <!--<transition name="move" mode="out-in">
         &lt;!&ndash;<component :is="componentName"></component>&ndash;&gt;
@@ -26,11 +26,16 @@
     },
     data(){
       return {
-        componentName:'bookSearch'
+        componentName:'bookSearch',
       }
     },
     methods:{
 
+    },
+    created(){
+    },
+    mounted(){
+      
     }
   }
 </script>

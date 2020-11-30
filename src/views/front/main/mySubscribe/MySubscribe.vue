@@ -4,7 +4,7 @@
       <el-tab-pane label="未完成" name="first">
         <div class="book-list">
           <div v-for="item in lendList">
-            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo"></book-info>
+            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo" :noStar = true></book-info>
             <div class="steps">
               <el-steps direction="vertical" :active="1">
                 <el-step title="借阅" :description="item.lendDate"></el-step>
@@ -28,11 +28,12 @@
       <el-tab-pane label="已借阅" name="second">
         <div class="book-list">
           <div v-for="item in lendList">
-            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo"></book-info>
-            <div class="steps">
-              <el-steps direction="vertical" :active="1">
+            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo" :noStar = true></book-info>
+            <div class="steps" style="height: 200px">
+              <el-steps direction="vertical" :active="2">
                 <el-step title="借阅" :description="item.lendDate"></el-step>
-                <el-step title="审批"></el-step>
+                <el-step title="审批" :description="item.approvalDate"></el-step>
+                <el-step title="归还" ></el-step>
               </el-steps>
             </div>
           </div>
@@ -52,7 +53,7 @@
       <el-tab-pane label="已归还" name="third">
         <div class="book-list">
           <div v-for="item in lendList">
-            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo"></book-info>
+            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo" :noStar = true></book-info>
             <div class="steps" style="height: 200px">
               <el-steps direction="vertical" :active="3">
                 <el-step title="借阅" :description="item.lendDate"></el-step>
@@ -97,7 +98,7 @@
         query: {
           pageIndex: 1,
           pageSize: 10,
-          readerId:this.$store.state.userInfo.readerId,
+          readerId:JSON.parse(sessionStorage.getItem('userInfo')).readerId,
           state:0
         },
         pageTotal: 0,
@@ -128,7 +129,7 @@
       },
     },
     mounted(){
-      this.getBookInfo();
+      this.getBookInfo(0);
     }
   }
 </script>

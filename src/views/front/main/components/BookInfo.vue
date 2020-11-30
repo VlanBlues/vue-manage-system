@@ -14,8 +14,10 @@
           <p>{{bookInfo.introduction | ellipsis}}</p>
           <p>{{bookInfo.price}}元</p>
         </div>
-        <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 22px;"></div>
-        <div v-else class="el-icon-star-off star" @click="collection"></div>
+        <div v-show="!noStar">
+          <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 22px;"></div>
+          <div v-else class="el-icon-star-off star" @click="collection"></div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -25,7 +27,8 @@
   export default {
     name: "BookInfo",
     props:{
-      bookInfo:{type:Object}
+      bookInfo:{type:Object},
+      noStar:{type:Boolean}
     },
     filters:{
       ellipsis(value){

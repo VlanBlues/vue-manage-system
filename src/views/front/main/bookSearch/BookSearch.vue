@@ -58,7 +58,7 @@
           bookName: '',
           pageIndex: 1,
           pageSize: 10,
-          readerId:this.$route.query.readerId
+          readerId:JSON.parse(sessionStorage.getItem('userInfo')).readerId
         },
         pageTotal: 0,
         bookList: [],

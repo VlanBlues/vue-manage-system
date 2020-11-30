@@ -30,16 +30,18 @@
     data() {
       return {
         activeIndex: '/main',
-        userInfo:this.$store.state.userInfo
+        userInfo:JSON.parse(sessionStorage.getItem('userInfo'))
       };
     },
-    computed: {},
+    computed: {
+    },
     methods: {
       handleSelect(key, keyPath) {
-        
       },
       goHome(){
-        this.$router.push("/main")
+        if(this.$route.path !== '/main'){
+          this.$router.push("/main")
+        }
       },
       handleCommand(command) {
         if(command === 'loginout') {
