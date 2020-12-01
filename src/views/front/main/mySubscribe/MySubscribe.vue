@@ -136,6 +136,8 @@
 
 <style lang="scss" scoped>
   .my-subscribe{
+    margin-top: 20px;
+    padding-top: 20px !important;
     .book-list {
       width: 100%;
       min-height: 300px;
@@ -157,6 +159,9 @@
         text-align: center;
         line-height: 300px;
         color: #8c939d;
+      }
+      .pagination{
+        margin-right: 20px;
       }
     }
   }

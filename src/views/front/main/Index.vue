@@ -1,13 +1,13 @@
 <template>
   <div class="front-main">
     <v-head></v-head>
-    <div style="padding: 0 20%;margin-top: 65px;position: relative">
+    <div style="padding: 0 18%;margin-top: 65px;position: relative;overflow: hidden">
       <!--<transition name="move" mode="out-in">
         &lt;!&ndash;<component :is="componentName"></component>&ndash;&gt;
       </transition>-->
       <transition name="move" mode="out-in">
         <keep-alive include="BookSearch">
-          <router-view></router-view>
+          <router-view  style="padding: 0 20px;background-color: #ffffff;"></router-view>
         </keep-alive>
       </transition>
     </div>
@@ -45,5 +45,6 @@
     position: relative;
     height: 100%;
     overflow: auto;
+    background-color: #EEEEEE;
   }
 </style>

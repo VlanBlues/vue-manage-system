@@ -36,7 +36,7 @@
         query: {
           pageIndex: 1,
           pageSize: 10,
-          readerId:this.$store.state.userInfo.readerId
+          readerId:sessionStorage.getItem('readerId')
         },
         pageTotal: 0,
         bookList: [],
@@ -48,6 +48,7 @@
         this.getBookInfo();
       },
       getBookInfo() {
+        console.log('this.query',this.query);
         this.$api.get("/book/info/getListByReaderId", this.query, res => {
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
@@ -66,8 +67,11 @@
 <style lang="scss" scoped>
   .book-list {
     width: 80%;
-    margin: 0 auto;
+    margin: 20px auto 0;
+    height: 100%;
     min-height: 300px;
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
     p{
       text-align: center;
       line-height: 300px;

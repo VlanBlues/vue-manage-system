@@ -253,11 +253,7 @@
         this.dialogFormVisible = false;
       },
       handelConfirm() {
-        // this.$refs['elForm'].validate(valid => {
-        //   console.log('valid:'+JSON.stringify(valid))
-        //   if (!valid) return;
-        //   this.close()
-        // });
+        
         console.log(this.registerData);
         this.$confirm(`确定${this.dialogFormTitle}?`, '提示', {
           confirmButtonText: '确定',

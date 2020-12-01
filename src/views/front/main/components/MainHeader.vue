@@ -57,6 +57,8 @@
             });
           }).catch(() => {
           });
+        }else {
+          this.$router.push('/main/personalInfo')
         }
       }
     },
@@ -80,11 +82,11 @@
     }
     .el-menu-demo {
       position: relative;
-      padding: 0 20%;
+      padding: 0 18%;
       .logo {
         display: inline-block;
         float: left;
-        margin-right: 20%;
+        margin-right: 15%;
         cursor: pointer;
         img{
           height: 60px;

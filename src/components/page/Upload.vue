@@ -1,31 +1,6 @@
 <template>
   <div>
-    <div class="crumbs">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item><i class="el-icon-lx-calendar"></i> 表单</el-breadcrumb-item>
-        <el-breadcrumb-item>图片上传</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <div class="container">
-      <div class="content-title">支持拖拽</div>
-      <div class="plugins-tips">
-        Element UI自带上传组件。
-        访问地址：<a href="http://element.eleme.io/#/zh-CN/component/upload" target="_blank">Element UI Upload</a>
-      </div>
-      <el-upload
-              class="upload-demo"
-              drag
-              action="http://jsonplaceholder.typicode.com/api/posts/"
-              multiple>
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload>
-      <div class="content-title">支持裁剪</div>
-      <div class="plugins-tips">
-        vue-cropperjs：一个封装了 cropperjs 的 Vue 组件。
-        访问地址：<a href="https://github.com/Agontuk/vue-cropperjs" target="_blank">vue-cropperjs</a>
-      </div>
       <div class="crop-demo">
         <img :src="cropImg" class="pre-img">
         <img :src="otherImg" class="pre-img">
@@ -98,16 +73,6 @@
             console.log('redd:', res);
           })
         });
-        /*this.$refs.cropper.getCropData((data) => {
-          let file = this.convertBase64UrlToBlob(data);
-          console.log(file)
-          let param = new FormData()  // 创建form对象
-          param.append('file', file)  // 通过append向form对象添加数据
-          param.append('bookId', '1')
-          this.$api.post("/book/info/update/bookImg",param, res => {
-            console.log('redd:', res);
-          })
-        })*/
       },
       // 将base64的图片转换为file文件
       convertBase64UrlToBlob(urlData) {
@@ -137,14 +102,6 @@
 </script>
 
 <style scoped>
-  .content-title {
-    font-weight: 400;
-    line-height: 50px;
-    margin: 10px 0;
-    font-size: 22px;
-    color: #1f2f3d;
-  }
-
   .pre-img {
     width: 100px;
     height: 100px;

@@ -12,6 +12,8 @@ import './components/common/directives';
 import 'babel-polyfill';
 import store from './store'
 import Api from './api/index.js';
+import EventBus from './assets/js/EventBus.js'
+window.EventBus = EventBus;
 Vue.prototype.$api = Api;
 Vue.prototype.$base64 = base64;
 Vue.config.productionTip = false;

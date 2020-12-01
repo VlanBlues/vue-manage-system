@@ -38,6 +38,11 @@ export default new Router({
           name:'bookCollection',
           component: () => import('../views/front/main/bookCollection/BookCollection.vue'),
           meta: {title: '图书收藏'}
+        },
+        {
+          path: 'personalInfo',
+          component: () => import('../views/front/main/personalInfo/PersonalInfo.vue'),
+          meta: {title: '个人信息'}
         }
       ]
     },
