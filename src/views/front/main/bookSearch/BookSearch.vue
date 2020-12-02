@@ -58,7 +58,7 @@
           bookName: '',
           pageIndex: 1,
           pageSize: 10,
-          readerId:JSON.parse(sessionStorage.getItem('userInfo')).readerId
+          readerId:this.$store.state.userInfo.readerId
         },
         pageTotal: 0,
         bookList: [],

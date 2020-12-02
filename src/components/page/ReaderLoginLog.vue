@@ -10,12 +10,11 @@
               header-cell-class-name="table-header"
               :default-sort = "{prop: 'lendDate', order: 'descending'}"
       >
-        <el-table-column prop="lendId" label="ID" width="60" align="center"></el-table-column>
-        <el-table-column prop="bookInfo.bookName" label="书名"></el-table-column>
-        <el-table-column prop="readerInfo.name" label="借阅人"></el-table-column>
-        <el-table-column prop="lendDate" label="借阅时间" sortable></el-table-column>
-        <el-table-column prop="backDate" label="归还时间" sortable></el-table-column>
-        <el-table-column prop="state" width="100" label="状态" :formatter="formatState"></el-table-column>
+        <el-table-column prop="id" label="ID" width="60" align="center"></el-table-column>
+        <el-table-column prop="readerId" label="用户ID"></el-table-column>
+        <el-table-column prop="username" label="用户名"></el-table-column>
+        <el-table-column prop="ip" label="ip地址"></el-table-column>
+        <el-table-column prop="date" label="时间" sortable></el-table-column>
       </el-table>
       <div class="pagination">
         <el-pagination
@@ -34,45 +33,37 @@
 <script>
 
   export default {
-    name: 'approval',
+    name: 'loginLog',
     data() {
       return {
         query: {
           pageIndex: 1,
           pageSize: 10,
-          state:2
         },
         tableData: [],
         pageTotal: 0,
       };
     },
     created() {
-      this.getBookInfo();
+      this.getloginLog();
     },
     methods: {
-      getBookInfo() {
-        this.$api.get("/subscribe/getListByState", this.query, res => {
+      getloginLog() {
+        this.$api.get("/log/getAll", this.query, res => {
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
             this.tableData = res.data.data.records;
           }
         })
       },
-      formatState(row, column){
-        if(row.state === 0){
-          return '未审批'
-        }else if(row.state === 1){
-          return '未归还'
-        }else if(row.state === 2){
-          return '已归还'
-        }
-        
-      },
       // 分页导航
       handlePageChange(val) {
         this.$set(this.query, 'pageIndex', val);
-        this.getBookInfo();
+        this.getloginLog();
       },
+    },
+    activated(){
+      this.getloginLog();
     }
   };
 </script>

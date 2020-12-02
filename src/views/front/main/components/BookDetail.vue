@@ -105,7 +105,9 @@
 
 <style lang="scss">
 .bookDetail{
-  padding-top: 40px;
+  margin-top: 20px !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
   .el-col{
     .book-img{
       width: 100%;

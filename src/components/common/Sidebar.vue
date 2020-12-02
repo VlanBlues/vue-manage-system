@@ -65,21 +65,6 @@
             title: '系统首页'
           },
           {
-            icon: 'el-icon-lx-cascades',
-            index: 'readerManage',
-            title: '用户管理'
-          },
-          {
-            icon: 'el-icon-lx-cascades',
-            index: 'bookManage',
-            title: '图书管理'
-          },
-          {
-            icon: 'el-icon-lx-copy',
-            index: 'tabs',
-            title: '公告管理'
-          },
-          {
             icon: 'el-icon-lx-calendar',
             index: '3',
             title: '借阅管理',
@@ -95,13 +80,29 @@
               {
                 index: 'bookLends',
                 title: '完成借阅'
-              },
-              {
-                index: 'upload',
-                title: '文件上传'
               }
             ]
-          }
+          },
+          {
+            icon: 'el-icon-user',
+            index: 'readerManage',
+            title: '用户管理'
+          },
+          {
+            icon: 'el-icon-lx-cascades',
+            index: 'bookManage',
+            title: '图书管理'
+          },
+          {
+            icon: 'el-icon-lx-copy',
+            index: 'tabs',
+            title: '公告管理'
+          },
+          {
+            icon: 'el-icon-notebook-2',
+            index: 'readerLoginLog',
+            title: '读者登录日志'
+          },
         ]
       };
     },

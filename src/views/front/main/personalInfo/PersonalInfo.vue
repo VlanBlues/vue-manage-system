@@ -40,10 +40,6 @@
             <el-input v-model="readerDate.name" placeholder="姓名"  prefix-icon='el-icon-user'
             ></el-input>
           </el-form-item>
-          <!--<el-form-item label="密码" prop="password">
-            <el-input v-model="readerDate.password" placeholder="请输入密码"  prefix-icon='el-icon-lock'
-                      show-password ></el-input>
-          </el-form-item>-->
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="readerDate.sex" size="medium" style="margin-left: 10px">
               <el-radio v-for="(item, index) in sexOptions" :key="index" :label="item.value"
@@ -62,6 +58,26 @@
         <el-button v-show="isEdit" class="chang-pass-btn" type="primary" @click="changePass">修改密码</el-button>
       </el-col>
     </el-row>
+    
+    <el-dialog title="修改密码" :visible.sync="changePassVisible" width="30%">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="密码" prop="originalPass">
+          <el-input type="password" v-model="ruleForm.originalPass" placeholder="请输入密码" clearable show-password></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirmPass">
+          <el-input type="password" v-model="ruleForm.confirmPass" placeholder="请输入确认密码" clearable show-password></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPass">
+          <el-input v-model="ruleForm.newPass" placeholder="请输入新密码" clearable show-password
+                    :style="{width: '100%'}"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -69,13 +85,33 @@
   import VueCropper from 'vue-cropperjs';
   export default {
     name: "PersonalInfo",
-    data: function () {
+    data() {
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.ruleForm.confirmPass !== '') {
+            this.$refs.ruleForm.validateField('confirmPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm.originalPass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
-        defaultSrc: JSON.parse(sessionStorage.getItem("userInfo")).img,
+        defaultSrc: this.$store.state.userInfo.img,
         fileList: [],
         imgSrc: '',
         cropImg: '',
         dialogVisible: false,
+        changePassVisible: false,
         isEdit: false,
         readerDate: {
           username: '',
@@ -93,14 +129,62 @@
           "label": "女",
           "value": "女"
         }],
+        ruleForm: {
+          originalPass: '',
+          confirmPass: '',
+          newPass: ''
+        },
+        rules: {
+          originalPass: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          confirmPass: [
+            { validator: validatePass2, trigger: 'blur' }
+          ],
+          newPass: [{
+            required: true,
+            message: '请输入新密码',
+            trigger: 'blur'
+          }],
+        }
+      }
+    },
+    computed:{
+      readerId(){
+        return this.$store.state.userInfo.readerId
       }
     },
     components: {
       VueCropper
     },
     methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$api.get('/reader/changePass',{
+              readerId:this.$store.state.userInfo.readerId,
+              oldPass:this.ruleForm.originalPass,
+              newPass:this.ruleForm.newPass
+            },res =>{
+              if(res.data.code === 200){
+                this.$message.success(res.data.data);
+                this.changePassVisible = false;
+                this.resetForm('ruleForm')
+              }else {
+                this.$message.error(res.data.data)
+              }
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
       changePass(){
-        
+        this.changePassVisible = true
       },
       cancelEdit(){
         this.isEdit = !this.isEdit;
@@ -108,7 +192,7 @@
       },
       handelConfirm() {
         console.log(this.readerDate);
-        this.$confirm(`确定${this.dialogFormTitle}?`, '提示', {
+        this.$confirm(`确定修改个人信息?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -116,10 +200,10 @@
           this.$api.post('/reader/updateOrSave',this.readerDate,
             res =>{
               if(res.data.code === 200){
-                this.$message.success(`${this.dialogFormTitle}成功!`);
-                this.close();
+                this.$message.success(`修改成功!`);
+                this.isEdit = !this.isEdit
               }else {
-                this.$message.error(`${this.dialogFormTitle}失败${res.data.data}`);
+                this.$message.error(`修改失败${res.data.data}`);
               }
               this.getData();
             });
@@ -153,12 +237,11 @@
         canvas.toBlob((blob)=>{
           let param = new FormData();  // 创建form对象
           param.append('file', blob,"a.png");  // 通过append向form对象添加数据
-          param.append('readerId', sessionStorage.getItem("readerId"));
+          param.append('readerId', this.readerId.toString());
           this.$api.post("/reader/update/img",param, res => {
             if(res.data.code === 200){
               this.$message.success(res.data.data);
               this.getReaderInfo();
-              location.reload();
             }else {
               this.$message.error(res.data.data);
             }
@@ -187,13 +270,12 @@
       },
       getReaderInfo(){
         this.$api.post('/reader/getByReaderId',{
-          readerId:sessionStorage.getItem("readerId")
+          readerId:this.readerId
         },res =>{
           if(res.data.code === 200){
-            console.log('dataaaa',res.data.data)
             this.readerDate = []
-            this.readerDate = res.data.data
-            sessionStorage.setItem('userInfo',JSON.stringify(this.readerDate));
+            this.readerDate = res.data.data;
+            this.$store.commit('updateUserInfo',res.data.data);
           }
         })
       }

@@ -5,9 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo:JSON.parse(sessionStorage.getItem('userInfo'))
+    userInfo:{
+      birth: "",
+      img: "",
+      name: "",
+      phone: "",
+      readerId: 0,
+      registerDate: "",
+      sex: "",
+      username: "",
+    }
   },
   mutations: {
+    updateUserInfo(state,info){
+      state.userInfo = {...info}
+    }
   },
   actions: {
   },

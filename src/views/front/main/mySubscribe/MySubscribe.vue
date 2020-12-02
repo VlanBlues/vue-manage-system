@@ -98,7 +98,7 @@
         query: {
           pageIndex: 1,
           pageSize: 10,
-          readerId:JSON.parse(sessionStorage.getItem('userInfo')).readerId,
+          readerId:this.$store.state.userInfo.readerId,
           state:0
         },
         pageTotal: 0,

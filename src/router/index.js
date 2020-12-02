@@ -92,10 +92,9 @@ export default new Router({
           meta: {title: '完成借阅'}
         },
         {
-          // 图片上传组件
-          path: '/upload',
-          component: () => import('../components/page/Upload.vue'),
-          meta: {title: '文件上传'}
+          path: '/readerLoginLog',
+          component: () => import('../components/page/ReaderLoginLog.vue'),
+          meta: {title: '读者登录日志'}
         },
         {
           path: '/404',

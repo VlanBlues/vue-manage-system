@@ -29,14 +29,14 @@
         get() {
           return this.pageTotal !== 0 || this.bookList.length >= 10;
         }
-      }
+      },
     },
     data(){
       return{
         query: {
           pageIndex: 1,
           pageSize: 10,
-          readerId:sessionStorage.getItem('readerId')
+          readerId:this.$store.state.userInfo.readerId
         },
         pageTotal: 0,
         bookList: [],

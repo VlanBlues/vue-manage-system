@@ -135,8 +135,9 @@
               if(res.data.code === 200){
                 this.$message.success(`登录成功!`);
                 console.log(data,'888')
-                sessionStorage.setItem('userInfo',JSON.stringify(data));
-                sessionStorage.setItem('readerId',data.readerId);
+                this.$store.commit('updateUserInfo',data);
+                /*sessionStorage.setItem('userInfo',JSON.stringify(data));
+                sessionStorage.setItem('readerId',data.readerId);*/
                 this.$router.push({path:'/main',query:{readerId:data.readerId}})
               }else {
                 this.$message.error(`登录失败，${res.data.data}`);
