@@ -43,6 +43,11 @@ export default new Router({
           path: 'personalInfo',
           component: () => import('../views/front/main/personalInfo/PersonalInfo.vue'),
           meta: {title: '个人信息'}
+        },
+        {
+          path: 'systemNotice',
+          component: () => import('../views/front/main/personalInfo/SystemNotice.vue'),
+          meta: {title: '系统消息'}
         }
       ]
     },

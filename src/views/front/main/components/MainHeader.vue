@@ -17,6 +17,9 @@
                     </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item  command="user-info">个人信息</el-dropdown-item>
+            <el-dropdown-item divided  command="system-info">
+              <el-badge is-dot class="item">系统消息</el-badge>
+            </el-dropdown-item>
             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -29,16 +32,24 @@
     name: 'main_header',
     data() {
       return {
-        activeIndex: '/main',
       };
     },
     computed: {
       userInfo(){
         return this.$store.state.userInfo
+      },
+      activeIndex:{
+        get(){
+          return this.$store.state.activeIndex
+        },
+        set(newVal){
+          this.$store.commit('updateActiveIndex',newVal);
+        }
       }
     },
     methods: {
       handleSelect(key, keyPath) {
+        this.activeIndex = key
       },
       goHome(){
         if(this.$route.path !== '/main'){
@@ -59,9 +70,12 @@
             });
           }).catch(() => {
           });
-        }else {
+        }else if(command === 'user-info') {
           this.$router.push('/main/personalInfo')
+        }else {
+          this.$router.push('/main/systemNotice')
         }
+        this.activeIndex = 'empty'
       }
     },
     mounted() {
@@ -91,8 +105,9 @@
         margin-right: 15%;
         cursor: pointer;
         img{
-          height: 60px;
+          height: 50px;
           border: none;
+          margin-top: 5px;
         }
         span{
           display: inline-block;

@@ -14,11 +14,15 @@ export default new Vuex.Store({
       registerDate: "",
       sex: "",
       username: "",
-    }
+    },
+    activeIndex:'/main'
   },
   mutations: {
     updateUserInfo(state,info){
       state.userInfo = {...info}
+    },
+    updateActiveIndex(state,index){
+      state.activeIndex = index
     }
   },
   actions: {

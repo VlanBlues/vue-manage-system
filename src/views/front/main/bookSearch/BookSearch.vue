@@ -25,7 +25,7 @@
         <p>热门推荐</p>
         <div class="img-list">
           <el-row :gutter="10">
-            <el-col :span="8" v-for="item in bookRecommend" :key="item.isbn">
+            <el-col :span="8" v-for="item in bookRecommend" :key="item.isbn" @click.native="bookDetail(item)">
               <img :src="item.bookImg">
               <p>{{item.bookName}}</p>
             </el-col>
@@ -66,6 +66,14 @@
       }
     },
     methods: {
+      bookDetail(bookInfo){
+        this.$router.push({
+          path:'/main/bookDetail',
+          query:{
+            bookInfo:this.$base64.encode(JSON.stringify(bookInfo)),
+            isStar:false
+          }})
+      },
       // 分页导航
       handlePageChange(val) {
         this.$set(this.query, 'pageIndex', val);
@@ -141,6 +149,7 @@
         margin-top: 10px;
         /deep/.el-col{
           height: 154px;
+          cursor: pointer;
         }
         img {
           width: 100%;
