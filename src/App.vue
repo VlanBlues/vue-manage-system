@@ -25,4 +25,14 @@
   @import "./assets/css/main.css";
   @import "./assets/css/color-dark.css"; /*深色主题*/
   /*@import "./assets/css/theme-green/color-green.css";   浅绿色主题*/
+  @font-face {
+    font-family: 'webfont';
+    font-display: swap;
+    src: url('./assets/font/webfont.eot'); /* IE9 */
+    src: url('./assets/font/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('./assets/font/webfont.woff2') format('woff2'),
+    url('./assets/font/webfont.woff') format('woff'), /* chrome、firefox */
+    url('./assets/font/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('./assets/font/webfont.svg#webfont') format('svg'); /* iOS 4.1- */
+  }
 </style>

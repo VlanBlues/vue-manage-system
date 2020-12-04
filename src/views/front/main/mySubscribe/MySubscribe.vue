@@ -4,7 +4,7 @@
       <el-tab-pane label="未完成" name="first">
         <div class="book-list">
           <div v-for="item in lendList">
-            <book-info class="book-info"  :key="item.bookInfo.isbn" :bookInfo="item.bookInfo" :noStar = true></book-info>
+            <book-info class="book-info"  @updateDate="getBookInfo(0)" :lendId="item.lendId" :key="item.bookInfo.isbn" :bookInfo="item.bookInfo" :noStar = true :isSubscribe = true></book-info>
             <div class="steps">
               <el-steps direction="vertical" :active="1">
                 <el-step title="借阅" :description="item.lendDate"></el-step>
@@ -123,7 +123,7 @@
           if (res.data.code === 200) {
             this.pageTotal = res.data.data.total;
             this.lendList = res.data.data.records;
-            console.log('bookInfo',res.data.data);
+            console.log('lendList',res.data.data);
           }
         })
       },
@@ -139,6 +139,7 @@
     margin-top: 20px;
     padding-top: 20px !important;
     .book-list {
+      position: relative;
       width: 100%;
       min-height: 300px;
       margin-left: 20px;
@@ -147,6 +148,7 @@
         display: inline-block;
       }
       .steps{
+        position: relative;
         display: inline-block;
         vertical-align: top;
         height: 120px;

@@ -305,7 +305,7 @@
     display: inline-block;
     width: 8px;
     height: 8px;
-    background-color: #0BD;
+    background-color: #409eff;
     margin-right: 10px;
     vertical-align: middle;
   }

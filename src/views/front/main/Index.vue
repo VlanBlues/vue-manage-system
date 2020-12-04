@@ -34,11 +34,30 @@
 
     },
     created(){
-      this.$notify.info({
-        title: '提示',
-        message: '这是一条不会自动关闭的消息',
-        duration: 0
-      });
+      let readerId = this.$store.state.userInfo.readerId;
+      this.$api.get('/notice/getNewNotice',{
+        readerId
+      },res =>{
+        if(res.data.code === 200){
+          if(this.$cookies.isKey(readerId)){
+            if(this.$cookies.get(readerId).toString() !== res.data.data.id.toString()){
+              this.$cookies.set(readerId,res.data.data.id);
+              this.$notify.info({
+                title: '系统提示',
+                message: res.data.data.title,
+                duration: 10000
+              });
+            }
+          }else {
+            this.$cookies.set(readerId,res.data.data.id);
+            this.$notify.info({
+              title: '系统提示',
+              message: res.data.data.title,
+              duration: 10000
+            });
+          }
+        }
+      })
     },
     mounted(){
       

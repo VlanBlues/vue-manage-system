@@ -3,7 +3,7 @@
     <el-menu :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <div class="logo" @click="goHome">
         <img src="@/assets/img/book_logo.png"/>
-        <span >图书订阅</span>
+        <span class="web-font">图书订阅</span>
       </div>
       <el-menu-item index="/main">书籍搜索</el-menu-item>
       <el-menu-item index="/main/mySubscribe">我的借阅</el-menu-item>
@@ -90,6 +90,13 @@
     left: 0;
     width: 100%;
     z-index: 100;
+    .web-font {
+      font-family: "webfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
     .img{
       outline:none;
     }

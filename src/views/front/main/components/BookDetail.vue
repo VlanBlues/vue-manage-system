@@ -1,5 +1,9 @@
 <template>
   <div class="bookDetail">
+    <div class="profile-box-head">
+      <span class="dot"></span>
+      <span style="vertical-align:middle;">详细信息</span>
+    </div>
     <el-row :gutter="40">
       <el-col :span="9" >
         <img :src="bookInfo.bookImg" class="book-img">
@@ -7,10 +11,11 @@
       <el-col :span="15">
         <div class="book-text">
           <p>{{bookInfo.bookName}}</p>
-          <p>{{bookInfo.author}}</p>
-          <p>{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}</p>
-          <p>{{bookInfo.introduction}}</p>
-          <p>{{bookInfo.price}}元</p>
+          <p><span>作者：</span>{{bookInfo.author}}</p>
+          <p><span>出版社：</span>{{bookInfo.publish}}</p>
+          <p><span>出版时间：</span>{{bookInfo.pubDate}}</p>
+          <p><span>简介：</span>{{bookInfo.introduction}}</p>
+          <p><span>定价：</span>{{bookInfo.price}}元</p>
         </div>
         <el-button v-if="isSubscribe" type="success" class="subscribe" disabled>已订阅</el-button>
         <el-button v-else type="success" class="subscribe" @click="subscribe">订阅</el-button>
@@ -64,12 +69,14 @@
             if(res.data.code === 200){
               this.$message({
                 type: 'success',
+                showClose: true,
                 message: '订阅成功!'
               });
               this.isSubscribe = true;
             }else {
               this.$message({
                 type: 'error',
+                showClose: true,
                 message: '订阅失败!'
               });
             }
@@ -106,8 +113,24 @@
 <style lang="scss">
 .bookDetail{
   margin-top: 20px !important;
-  padding-top: 20px !important;
   padding-bottom: 20px !important;
+  .profile-box-head {
+    height: 50px;
+    border-bottom: 1px solid #E1E1E1;
+    line-height: 50px;
+    font-size: 18px;
+    color:#333;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #409eff;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
   .el-col{
     .book-img{
       width: 100%;
@@ -118,6 +141,9 @@
     color: #666;
     p{
       margin-bottom: 20px;
+      span{
+        color: #409eff;
+      }
     }
     p:first-child{
       font-size: 34px;
@@ -137,7 +163,9 @@
     padding: 12px 18px;
     font-size: 18px;
     display: inline-block;
-    float: right;
+    position: absolute;
+    right: 20px;
+    bottom: 0;
   }
 }
 </style>

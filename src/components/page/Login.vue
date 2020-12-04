@@ -32,7 +32,7 @@
       return {
         param: {
           username: 'admin',
-          password: '123123',
+          password: '123456',
         },
         rules: {
           username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -49,7 +49,9 @@
             this.$api.post('/admin/login',this.param,res =>{
               if(res.data.code === 200){
                 this.$router.push('/dashboard');
-                this.$message.success(res.data.data);
+                setTimeout(()=>{
+                  this.$message.success(res.data.data);
+                },500)
               }else {
                 this.$message.error(res.data.data);
               }
@@ -79,7 +81,7 @@
     line-height: 50px;
     text-align: center;
     font-size: 20px;
-    color: #fff;
+    color: #4c4c4c;
     border-bottom: 1px solid #ddd;
   }
 
@@ -90,7 +92,7 @@
     width: 350px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(124, 134, 151, 0.5);
     overflow: hidden;
   }
 

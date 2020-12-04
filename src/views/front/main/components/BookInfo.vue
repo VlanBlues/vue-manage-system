@@ -13,6 +13,7 @@
           <p>{{bookInfo.publish}}&nbsp/&nbsp{{bookInfo.pubDate}}</p>
           <p>{{bookInfo.introduction | ellipsis}}</p>
           <p>{{bookInfo.price}}元</p>
+          <el-button v-if="isSubscribe" type="primary" @click="cancelSub(bookInfo.bookName)">取消</el-button>
         </div>
         <div v-show="!noStar">
           <div v-if="isStar" class="el-icon-star-on star" @click="collection" style="font-size: 22px;"></div>
@@ -28,7 +29,9 @@
     name: "BookInfo",
     props:{
       bookInfo:{type:Object},
-      noStar:{type:Boolean}
+      noStar:{type:Boolean},
+      isSubscribe:{type:Boolean,default:false},
+      lendId:{type:Number}
     },
     filters:{
       ellipsis(value){
@@ -45,6 +48,38 @@
       }
     },
     methods:{
+      cancelSub(bookName){
+        this.$confirm(`是否取消订阅《${bookName}》?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.get('/subscribe/delByLendId',{
+            lendId:this.lendId
+          },res =>{
+            if(res.data.code === 200){
+              this.$message({
+                type:'success',
+                showClose: true,
+                message: res.data.data
+              });
+              this.$emit('updateDate')
+            }else {
+              this.$message({
+                type:'error',
+                showClose: true,
+                message: res.data.data
+              });
+            }
+          })
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消!'
+          });
+        });
+      },
       bookDetail(){
         this.$router.push({
           path:'/main/bookDetail',
@@ -116,6 +151,11 @@
     }
     .introduction{
       width: 80%;
+    }
+    button{
+      position: absolute;
+      right: 0;
+      bottom: 0px;
     }
   }
   .star{
