@@ -86,10 +86,9 @@
 <style lang="scss">
   .header {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     z-index: 100;
+    background-color: white;
     .web-font {
       font-family: "webfont" !important;
       font-size: 16px;
@@ -105,7 +104,8 @@
     }
     .el-menu-demo {
       position: relative;
-      padding: 0 18%;
+      width: 1000px;
+      margin: 0 auto;
       .logo {
         display: inline-block;
         float: left;

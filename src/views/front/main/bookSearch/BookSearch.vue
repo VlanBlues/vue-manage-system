@@ -153,6 +153,7 @@
         }
         img {
           width: 100%;
+          height: 120px;
         }
         p {
           font-size: 10px;

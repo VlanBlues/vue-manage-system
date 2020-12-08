@@ -1,7 +1,7 @@
 <template>
   <div class="front-main">
     <v-head></v-head>
-    <div style="padding: 0 18%;margin-top: 65px;position: relative;overflow: hidden">
+    <div style="width:1000px;margin: 55px auto 0;position: relative;overflow: hidden">
       <!--<transition name="move" mode="out-in">
         &lt;!&ndash;<component :is="componentName"></component>&ndash;&gt;
       </transition>-->
